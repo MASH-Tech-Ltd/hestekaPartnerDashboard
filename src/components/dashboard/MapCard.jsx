@@ -91,9 +91,29 @@ export default function MapCard({ data }) {
     libraries,
   });
 
-  // Filter out invalid coordinates (0,0)
-  const validPoints = (data || []).filter(
-    (p) => p.latitude && p.longitude && p.latitude !== 0 && p.longitude !== 0,
+  // Helper to extract coordinates safely
+  const getCoordinates = (p) => {
+    if (p.location?.coordinates && p.location.coordinates.length >= 2) {
+      return {
+        lat: Number(p.location.coordinates[1]),
+        lng: Number(p.location.coordinates[0])
+      };
+    }
+    if (p.latitude && p.longitude) {
+      return {
+        lat: Number(p.latitude),
+        lng: Number(p.longitude)
+      };
+    }
+    return null;
+  };
+
+  // Filter out invalid coordinates
+  const validPoints = (data || []).map(p => ({
+    ...p,
+    coords: getCoordinates(p)
+  })).filter(
+    (p) => p.coords && p.coords.lat !== 0 && p.coords.lng !== 0,
   );
 
   useEffect(() => {
@@ -125,7 +145,7 @@ export default function MapCard({ data }) {
 
   const currentPoint = validPoints[activeIndex] || null;
   const center = currentPoint
-    ? { lat: currentPoint.latitude, lng: currentPoint.longitude }
+    ? { lat: currentPoint.coords.lat, lng: currentPoint.coords.lng }
     : { lat: 46.2276, lng: 2.2137 }; // France coordinates
   
   const defaultZoom = currentPoint ? 14 : 5;
@@ -171,11 +191,11 @@ export default function MapCard({ data }) {
                 {t.collectionPoints || "Collection Point"}
               </span>
               <h2 className="text-[14px] font-bold text-[#3a2a1a] leading-tight">
-                {currentPoint?.title || "My Deposit Locations"}
+                {currentPoint?.title || t.myDepositLocations || "My Deposit Locations"}
               </h2>
             </div>
             <p className="text-[11px] text-[#9a8a7a] font-medium leading-tight mt-0.5 ml-0.5">
-              {currentPoint?.address || "No active point selected"}
+              {currentPoint?.address || t.noActivePointSelected || "No active point selected"}
             </p>
           </div>
         </div>
@@ -232,7 +252,7 @@ export default function MapCard({ data }) {
             return (
               <MarkerF
                 key={id}
-                position={{ lat: p.latitude, lng: p.longitude }}
+                position={{ lat: p.coords.lat, lng: p.coords.lng }}
                 opacity={idx === activeIndex ? 1 : 0.6}
                 icon={markerIcons[id]}
               />

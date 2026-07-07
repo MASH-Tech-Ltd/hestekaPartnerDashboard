@@ -17,8 +17,15 @@ export default function SupportMessagesPage() {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [currentMessage, setCurrentMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const userStr = localStorage.getItem("partnerUser");
+  const user = userStr ? JSON.parse(userStr) : null;
+  const initialName = user?.firstName ? `${user.firstName} ${user.lastName}` : "Partner";
+  const initialEmail = user?.email || "partner@hesteka.com";
 
   const messageFields = [
+    { name: "name", label: t.nameField || "Name", required: true },
+    { name: "email", label: t.emailField || "Email", type: "email", required: true },
     { name: "subject", label: t.subject || "Subject", required: true },
     { name: "message", label: t.message || "Message", type: "textarea", required: true },
   ];
@@ -61,7 +68,15 @@ export default function SupportMessagesPage() {
       fetchMessages();
     } catch (err) {
       console.error("Failed to send message", err);
-      toast.error(err?.response?.data?.message || t.messageSentFailed || "Failed to send message");
+      
+      const responseData = err?.response?.data;
+      if (responseData?.data && Array.isArray(responseData.data)) {
+        responseData.data.forEach(error => {
+          toast.error(`${error.field}: ${error.message}`);
+        });
+      } else {
+        toast.error(responseData?.message || t.messageSentFailed || "Failed to send message");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -69,19 +84,19 @@ export default function SupportMessagesPage() {
 
   const columns = [
     { 
-      header: t.subject || "SUBJECT", 
+      header: t.subjectLabel || "SUBJECT", 
       cell: (r) => <span className="text-xs text-[#3a2a1a] font-bold">{r.subject}</span>
     },
     {
-      header: t.status || "STATUS",
+      header: t.statusLabel || "STATUS",
       cell: (r) => <StatusBadge status={r.status} />
     },
     { 
-      header: t.date || "DATE", 
+      header: t.dateLabel || "DATE", 
       cell: (r) => <span className="text-[11px] text-[#5a4a3a] font-medium whitespace-nowrap">{new Date(r.createdAt).toLocaleDateString()}</span>
     },
     { 
-      header: t.actions || "ACTIONS", 
+      header: t.actionsLabel || "ACTIONS", 
       align: "right",
       cell: (r) => (
         <div className="flex items-center gap-2 justify-end">
@@ -131,6 +146,7 @@ export default function SupportMessagesPage() {
         onClose={() => setIsModalOpen(false)}
         title={t.newTicket || "New Support Ticket"}
         fields={messageFields}
+        initialData={{ name: initialName, email: initialEmail }}
         onSubmit={handleSubmit}
         loading={isSubmitting}
       />

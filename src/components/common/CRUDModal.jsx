@@ -727,7 +727,7 @@ const CRUDModal = ({
                       disabled={field.disabled || isViewOnly}
                       rows="3"
                       className={`bg-[#fcfaf7] border rounded-xl px-4 py-2 text-xs text-[#3a2a1a] outline-none focus:border-[#8B6914] transition-all resize-none font-medium disabled:opacity-80 ${hasError ? "border-red-400 bg-red-50/30" : "border-[#e8ddd0]"}`}
-                      placeholder={`Enter ${field.label.toLowerCase()}...`}
+                      placeholder={field.placeholder || `${t.enter || "Enter"} ${field.label.toLowerCase()}...`}
                     />
                   ) : field.type === "file" ? (
                     <div className="flex flex-col gap-1">
@@ -774,7 +774,7 @@ const CRUDModal = ({
                       required={field.required}
                       disabled={field.disabled || isViewOnly}
                       className={`bg-[#fcfaf7] border rounded-xl px-4 py-2 text-xs text-[#3a2a1a] outline-none focus:border-[#8B6914] transition-all font-bold placeholder:font-medium placeholder:opacity-50 disabled:opacity-80 ${hasError ? "border-red-400 bg-red-50/30" : "border-[#e8ddd0]"}`}
-                      placeholder={`Enter ${field.label.toLowerCase()}...`}
+                      placeholder={field.placeholder || `${t.enter || "Enter"} ${field.label.toLowerCase()}...`}
                     />
                   )}
                   {hasError && (

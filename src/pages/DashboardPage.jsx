@@ -102,22 +102,22 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-6">
       {/* Welcome Banner */}
-      <div className="relative rounded-3xl overflow-hidden h-48 border border-[#e8ddd0] shadow-md flex items-end p-6 md:p-8 transition-all hover:shadow-lg">
-        <div className="absolute inset-0 z-0">
+      <div className="relative rounded-3xl overflow-hidden h-[240px] md:h-[280px] border border-[#e8ddd0] shadow-md flex items-end p-4 md:p-6 transition-all hover:shadow-lg group">
+        <div className="absolute inset-0 z-0 bg-[#3a2a1a]">
           <img
             src={
               profile?.partnerImage?.secure_url ||
               "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=1200"
             }
             alt="Banner"
-            className="w-full h-full object-cover transform hover:scale-[1.02] duration-700 transition-all"
+            className="w-full h-full object-cover opacity-95 group-hover:scale-105 duration-700 transition-transform"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
         </div>
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between w-full gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-20 h-20 rounded-2xl bg-white/95 backdrop-blur-sm border-2 border-white/80 shadow-xl shrink-0 overflow-hidden flex items-center justify-center transition-all hover:scale-105 duration-300">
+          <div className="flex items-center gap-4 md:gap-5">
+            <div className="w-16 h-16 md:w-24 md:h-24 rounded-2xl bg-white/95 backdrop-blur-sm border-2 border-white/80 shadow-xl shrink-0 overflow-hidden flex items-center justify-center transition-all hover:scale-105 duration-300">
               {profile?.profileImage?.secure_url || profile?.logo?.secure_url ? (
                 <img
                   src={profile.profileImage?.secure_url || profile.logo?.secure_url}
@@ -125,29 +125,31 @@ export default function DashboardPage() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <span className="text-2xl font-bold text-orange-600">
+                <span className="text-3xl font-bold text-orange-600">
                   {getPartnerName(profile)?.charAt(0) || "P"}
                 </span>
               )}
             </div>
-            <div>
-              <h2 className="text-xl md:text-2xl font-black text-white drop-shadow">
-                {getPartnerName(profile) || "My Organization"}
+            <div className="flex flex-col">
+              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight drop-shadow-lg">
+                {getPartnerName(profile) || t.myOrganization || "My Organization"}
               </h2>
-              <p className="text-xs text-white/80 flex items-center gap-1.5 mt-1 drop-shadow">
-                <MapPin className="w-4 h-4 text-orange-500" />
-                {profile?.address
-                  ? `${profile.address}, ${profile.city}`
-                  : t.addressNotConfigured || "Address not configured"}
+              <p className="text-sm md:text-base text-white/90 flex items-center gap-1.5 mt-1 drop-shadow-md font-medium">
+                <MapPin className="w-4 h-4 text-orange-400 shrink-0" />
+                <span className="line-clamp-1">
+                  {profile?.address
+                    ? `${profile.address}, ${profile.city}`
+                    : t.addressNotConfigured || "Address not configured"}
+                </span>
               </p>
             </div>
           </div>
           <Link
             to="/settings"
-            className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-full transition-all flex items-center gap-1.5 self-start md:self-auto shadow-lg hover:shadow-orange-600/30 hover:-translate-y-0.5 duration-200"
+            className="px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm rounded-xl transition-all flex items-center gap-2 self-start md:self-auto shadow-lg hover:shadow-orange-600/30 hover:-translate-y-0.5 duration-200"
           >
             {t.editProfile || "Edit Profile"}
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>
@@ -223,8 +225,8 @@ export default function DashboardPage() {
                         {m.title}
                       </h4>
                       <p className="text-[10px] text-[#9a8a7a] truncate mt-0.5">
-                        {m.pointsRequired || 0} pts required ·{" "}
-                        {m.category || "Mission"}
+                        {m.pointsRequired || 0} {t.ptsRequired || "pts required"} ·{" "}
+                        {m.category || t.mission || "Mission"}
                       </p>
                     </div>
                   </div>

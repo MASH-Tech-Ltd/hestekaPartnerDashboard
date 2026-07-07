@@ -7,7 +7,7 @@ import Pagination from "../components/common/Pagination";
 import { toast } from "react-toastify";
 
 export default function NotificationsPage() {
-  const { t } = useLang();
+  const { t, formatNotification } = useLang();
   const [notifications, setNotifications] = useState([]);
   const [meta, setMeta] = useState(null);
   const [page, setPage] = useState(1);
@@ -127,7 +127,9 @@ export default function NotificationsPage() {
                 </div>
               ))
           ) : notifications.length > 0 ? (
-            notifications.map((notif) => (
+            notifications.map((notif) => {
+              const { title, description } = formatNotification(notif.title, notif.description);
+              return (
               <div
                 key={notif._id}
                 onClick={() => handleMarkAsRead(notif._id, notif.isRead)}
@@ -146,7 +148,7 @@ export default function NotificationsPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-4">
                     <h3 className={`text-xs ${notif.isRead ? "font-bold text-[#5a4a3a]" : "font-black text-[#3a2a1a]"}`}>
-                      {notif.title}
+                      {title}
                     </h3>
                     
                     <div className="flex items-center gap-2 shrink-0">
@@ -170,7 +172,7 @@ export default function NotificationsPage() {
                     </div>
                   </div>
                   
-                  <p className="text-[11px] text-[#5a4a3a] leading-relaxed mt-1">{notif.description}</p>
+                  <p className="text-[11px] text-[#5a4a3a] leading-relaxed mt-1">{description}</p>
                   
                   {!notif.isRead && (
                     <span className="inline-flex items-center gap-1 text-[9px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full mt-2 uppercase tracking-wider">
@@ -180,7 +182,7 @@ export default function NotificationsPage() {
                   )}
                 </div>
               </div>
-            ))
+            )})
           ) : (
             <div className="py-32 flex flex-col items-center justify-center opacity-30 gap-3">
               <Bell className="w-12 h-12" />

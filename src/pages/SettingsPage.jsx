@@ -229,7 +229,10 @@ export default function SettingsPage() {
       }
 
       if (logoFile) {
-        formData.append("image", logoFile);
+        formData.append("logo", logoFile);
+      }
+      if (partnerImageFile) {
+        formData.append("partnerImage", partnerImageFile);
       }
 
       const res = await api.patch("/user/update-user", formData, {

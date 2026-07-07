@@ -191,10 +191,11 @@ const translations = {
     activeLabel: "Active",
     pointsRequiredLabel: "Points Required",
     durationLabel: "Duration",
-    registrationsLabel: "Registrations",
+    registrationsLabel: "Participants",
     filterStatusLabel: "Filter Status",
     searchPlaceholderMissions: "Search by mission name or category...",
     emptyMissionsList: "No local missions created yet.",
+    noRegistrationsYet: "No participants for this mission yet.",
     createMissionBtn: "Create Local Mission",
     editMissionBtn: "Edit Local Mission",
     deleteMissionBtn: "Delete Local Mission",
@@ -218,6 +219,111 @@ const translations = {
     depositsThisMonth: "Deposits This Month",
     refusalReasons: "Refusal Reasons",
     categoryTrend: "Analytics",
+    myDepositLocations: "My Deposit Locations",
+    noActivePointSelected: "No active point selected",
+    ptsRequired: "pts required",
+    mission: "Mission",
+    myOrganization: "My Organization",
+    enter: "Enter",
+    visualPreview: "Visual Preview",
+    newRecord: "New Record",
+    searchLocationPlaceholder: "Search location...",
+    findBtn: "Find",
+    mapLocation: "Map Location",
+    locationDetails: "Location Details",
+    clickToPin: "CLICK TO PIN",
+    points: "Points Reward",
+    toastMissionCreated: "Local mission created successfully.",
+    toastMissionUpdated: "Local mission updated successfully.",
+    toastMissionSaveFailed: "Failed to save local mission.",
+    toastMissionDeleted: "Local mission deleted successfully.",
+    toastMissionDeleteFailed: "Failed to delete local mission.",
+    toastApproveSuccess: "Participant registration approved!",
+    toastApproveFailed: "Failed to approve participant.",
+    toastLoadMissionsFailed: "Failed to load missions.",
+    toastLoadParticipantsFailed: "Failed to load participants list.",
+    toastLoadPointsFailed: "Failed to load collection points.",
+    toastPointCreated: "Collection point created successfully.",
+    toastPointUpdated: "Collection point updated successfully.",
+    toastPointSaveFailed: "Failed to save collection point.",
+    toastPointDeleted: "Collection point deleted successfully.",
+    toastPointDeleteFailed: "Failed to delete collection point.",
+    approveBtn: "Approve",
+    rejectBtn: "Reject",
+    approved: "Approved",
+    rejected: "Rejected",
+    toastRejectSuccess: "Participant rejected successfully.",
+    toastRejectFailed: "Failed to reject participant.",
+    food: "Food",
+    litter: "Litter",
+    toys: "Toys",
+    medicine: "Medicine",
+    other: "Other",
+    blurredPhoto: "Blurred Photo",
+    itemNotVisible: "Item Not Visible",
+    pointNotRecognized: "Point Not Recognized",
+    janShort: "JAN",
+    febShort: "FEB",
+    marShort: "MAR",
+    aprShort: "APR",
+    mayShort: "MAY",
+    junShort: "JUN",
+    julShort: "JUL",
+    augShort: "AUG",
+    sepShort: "SEP",
+    octShort: "OCT",
+    novShort: "NOV",
+    decShort: "DEC",
+    sunShort: "SUN",
+    monShort: "MON",
+    tueShort: "TUE",
+    wedShort: "WED",
+    thuShort: "THU",
+    friShort: "FRI",
+    satShort: "SAT",
+    weekly: "Weekly",
+    monthly: "Monthly",
+    yearly: "Yearly",
+    lifetime: "Lifetime",
+    noDataFound: "NO DATA FOUND.",
+    exportBtn: "Export",
+    hestekaPartner: "HESTEKA Partner",
+    supportVia: "Support Via",
+    quantityLabel: "Quantity",
+    association: "Association",
+    dateLabel: "DATE",
+    statusLabel: "STATUS",
+    actionsLabel: "ACTIONS",
+    viewImage: "View Image",
+    allStatuses: "ALL",
+    pending: "PENDING",
+    loadingLabel: "LOADING...",
+    supportProofsSub: "Review and validate physical donations",
+    analyticsSub: "Track your ecosystem growth",
+    supportMessagesSub: "Contact our support team",
+    faqSub: "Frequently asked questions",
+    participationsMonth: "Participants per Month",
+    missionsTitle: "Local Missions",
+    collectionPointsTitle: "Collection Points",
+    newParticipantTitle: "New Participant!",
+    faqTitle: "Frequently Asked Questions",
+    faqSubtitle: "Find answers to common questions about managing your collection points, local missions, and partner account.",
+    noFaqsFound: "No FAQs found at this time.",
+    nameField: "Name",
+    emailField: "Email",
+    newTicket: "New Support Ticket",
+    subjectLabel: "SUBJECT",
+    subject: "Subject",
+    message: "Message",
+    noMessagesFound: "YOU HAVEN'T SENT ANY SUPPORT MESSAGES YET.",
+    messageSentSuccess: "Support message sent successfully! We will contact you soon.",
+    messageSentFailed: "Failed to send message",
+    view: "View",
+    ticketDetails: "Ticket Details",
+    yourMessage: "Your Message",
+    adminReply: "Admin Reply",
+    close: "Close",
+    searchPlaceholder: "Search...",
   },
   fr: {
     // Sidebar
@@ -409,10 +515,11 @@ const translations = {
     activeLabel: "Actif",
     pointsRequiredLabel: "Points Requis",
     durationLabel: "Durée",
-    registrationsLabel: "Inscriptions",
+    registrationsLabel: "Participantes",
     filterStatusLabel: "Filtrer par Statut",
     searchPlaceholderMissions: "Rechercher par nom de mission ou catégorie...",
     emptyMissionsList: "Aucune mission locale créée pour le moment.",
+    noRegistrationsYet: "Aucun participant pour cette mission pour le moment.",
     createMissionBtn: "Créer une Mission Locale",
     editMissionBtn: "Modifier la Mission Locale",
     deleteMissionBtn: "Supprimer la Mission Locale",
@@ -436,6 +543,111 @@ const translations = {
     depositsThisMonth: "Dépôts ce mois-ci",
     refusalReasons: "Motifs de refus",
     categoryTrend: "Analytiques",
+    myDepositLocations: "Mes Lieux de Dépôt",
+    noActivePointSelected: "Aucun point actif sélectionné",
+    ptsRequired: "pts requis",
+    mission: "Mission",
+    myOrganization: "Mon Organisation",
+    enter: "Entrer",
+    visualPreview: "Aperçu Visuel",
+    newRecord: "Nouvel Enregistrement",
+    searchLocationPlaceholder: "Rechercher l'emplacement...",
+    findBtn: "Trouver",
+    mapLocation: "Emplacement sur la carte",
+    locationDetails: "Détails de l'emplacement",
+    clickToPin: "CLIQUEZ POUR ÉPINGLER",
+    points: "Points de Récompense",
+    toastMissionCreated: "Mission locale créée avec succès.",
+    toastMissionUpdated: "Mission locale mise à jour avec succès.",
+    toastMissionSaveFailed: "Échec de l'enregistrement de la mission locale.",
+    toastMissionDeleted: "Mission locale supprimée avec succès.",
+    toastMissionDeleteFailed: "Échec de la suppression de la mission locale.",
+    toastApproveSuccess: "Inscription du participant approuvée !",
+    toastApproveFailed: "Échec de l'approbation du participant.",
+    toastLoadMissionsFailed: "Échec du chargement des missions.",
+    toastLoadParticipantsFailed: "Échec du chargement de la liste des participants.",
+    toastLoadPointsFailed: "Échec du chargement des points de collecte.",
+    toastPointCreated: "Point de collecte créé avec succès.",
+    toastPointUpdated: "Point de collecte mis à jour avec succès.",
+    toastPointSaveFailed: "Échec de l'enregistrement du point de collecte.",
+    toastPointDeleted: "Point de collecte supprimé avec succès.",
+    toastPointDeleteFailed: "Échec de la suppression du point de collecte.",
+    approveBtn: "Valider",
+    rejectBtn: "Refuser",
+    approved: "Validé",
+    rejected: "Refusé",
+    toastRejectSuccess: "Participant refusé avec succès.",
+    toastRejectFailed: "Échec du refus du participant.",
+    food: "Nourriture",
+    litter: "Litière",
+    toys: "Jouets",
+    medicine: "Médicaments",
+    other: "Autre",
+    blurredPhoto: "Photo Floue",
+    itemNotVisible: "Article Non Visible",
+    pointNotRecognized: "Point Non Reconnu",
+    janShort: "JAN",
+    febShort: "FÉV",
+    marShort: "MAR",
+    aprShort: "AVR",
+    mayShort: "MAI",
+    junShort: "JUIN",
+    julShort: "JUIL",
+    augShort: "AOÛT",
+    sepShort: "SEP",
+    octShort: "OCT",
+    novShort: "NOV",
+    decShort: "DÉC",
+    sunShort: "DIM",
+    monShort: "LUN",
+    tueShort: "MAR",
+    wedShort: "MER",
+    thuShort: "JEU",
+    friShort: "VEN",
+    satShort: "SAM",
+    weekly: "Hebdomadaire",
+    monthly: "Mensuel",
+    yearly: "Annuel",
+    lifetime: "À vie",
+    noDataFound: "AUCUNE DONNÉE TROUVÉE.",
+    exportBtn: "Exporter",
+    hestekaPartner: "Partenaire HESTEKA",
+    supportVia: "Soutien Via",
+    quantityLabel: "Quantité",
+    association: "Association",
+    dateLabel: "DATE",
+    statusLabel: "STATUT",
+    actionsLabel: "ACTIONS",
+    viewImage: "Voir l'image",
+    allStatuses: "TOUS",
+    pending: "EN ATTENTE",
+    loadingLabel: "CHARGEMENT...",
+    supportProofsSub: "Examiner et valider les dons physiques",
+    analyticsSub: "Suivez la croissance de votre écosystème",
+    supportMessagesSub: "Contactez notre équipe de support",
+    faqSub: "Foire aux questions",
+    participationsMonth: "Participants par mois",
+    missionsTitle: "Missions Locales",
+    collectionPointsTitle: "Points de Collecte",
+    newParticipantTitle: "Nouveau participant !",
+    faqTitle: "Foire aux questions",
+    faqSubtitle: "Trouvez des réponses aux questions courantes sur la gestion de vos points de collecte, de vos missions locales et de votre compte partenaire.",
+    noFaqsFound: "Aucune FAQ trouvée pour le moment.",
+    nameField: "Nom",
+    emailField: "Email",
+    newTicket: "Nouveau Ticket",
+    subjectLabel: "SUJET",
+    subject: "Sujet",
+    message: "Message",
+    noMessagesFound: "VOUS N'AVEZ ENVOYÉ AUCUN MESSAGE DE SUPPORT.",
+    messageSentSuccess: "Message envoyé avec succès ! Nous vous contacterons bientôt.",
+    messageSentFailed: "Échec de l'envoi du message",
+    view: "Voir",
+    ticketDetails: "Détails du Ticket",
+    yourMessage: "Votre Message",
+    adminReply: "Réponse de l'Admin",
+    close: "Fermer",
+    searchPlaceholder: "Rechercher...",
   }
 };
 
@@ -451,8 +663,115 @@ export function LanguageProvider({ children }) {
 
   const t = translations[lang];
 
+  const formatNotification = (title, description) => {
+    let newTitle = title;
+
+    if (title === "New Participant!" || title === "Nouveau participant !") {
+      newTitle = t.newParticipantTitle || (lang === 'fr' ? "Nouveau participant !" : "New Participant!");
+    } else if (title === "Points reçus !") {
+      newTitle = lang === 'fr' ? "Points reçus !" : "Points received!";
+    } else if (title === "Registration Registered" || title === "Inscription enregistrée") {
+      newTitle = lang === 'fr' ? "Inscription enregistrée" : "Registration Registered";
+    } else if (title === "Mission not approved" || title === "Mission non validée") {
+      newTitle = lang === 'fr' ? "Mission non validée" : "Mission not approved";
+    } else if (title === "Points gagnés !") {
+      newTitle = lang === 'fr' ? "Points gagnés !" : "Points earned!";
+    } else if (title === "Soutien approuvé !") {
+      newTitle = lang === 'fr' ? "Soutien approuvé !" : "Support approved!";
+    } else if (title === "Points approuvés !") {
+      newTitle = lang === 'fr' ? "Points approuvés !" : "Points approved!";
+    }
+
+    // 1. New Participant
+    const participantEnMatch = description?.match(/The user "(.*?)" has registered for your mission "(.*?)"\./);
+    const participantFrMatch = description?.match(/L'utilisateur "(.*?)" s'est inscrit à votre mission "(.*?)"\./);
+    const participantMatch = participantEnMatch || participantFrMatch;
+    
+    if (participantMatch) {
+      return {
+        title: newTitle,
+        description: lang === 'fr'
+          ? `L'utilisateur "${participantMatch[1]}" s'est inscrit à votre mission "${participantMatch[2]}".`
+          : `The user "${participantMatch[1]}" has registered for your mission "${participantMatch[2]}".`
+      };
+    }
+
+    // 2. Custom points
+    const customPointsMatch = description?.match(/Vous avez reçu (\d+) points de la part de l'administrateur\./);
+    if (customPointsMatch) {
+      return {
+        title: newTitle,
+        description: lang === 'fr'
+          ? `Vous avez reçu ${customPointsMatch[1]} points de la part de l'administrateur.`
+          : `You received ${customPointsMatch[1]} points from the administrator.`
+      };
+    }
+
+    // 3. Registration successful
+    const regEnMatch = description?.match(/Your registration for the mission "(.*?)" has been successfully registered\./);
+    const regFrMatch = description?.match(/Votre inscription à la mission "(.*?)" a été enregistrée avec succès\./);
+    const regMatch = regEnMatch || regFrMatch;
+    if (regMatch) {
+      return {
+        title: newTitle,
+        description: lang === 'fr'
+          ? `Votre inscription à la mission "${regMatch[1]}" a été enregistrée avec succès.`
+          : `Your registration for the mission "${regMatch[1]}" has been successfully registered.`
+      };
+    }
+
+    // 4. Mission rejected
+    const rejEnMatch = description?.match(/Your participation in the mission "(.*?)" was not approved\./);
+    const rejFrMatch = description?.match(/Votre participation à la mission "(.*?)" n'a pas été validée\./);
+    const rejMatch = rejEnMatch || rejFrMatch;
+    if (rejMatch) {
+      return {
+        title: newTitle,
+        description: lang === 'fr'
+          ? `Votre participation à la mission "${rejMatch[1]}" n'a pas été validée.`
+          : `Your participation in the mission "${rejMatch[1]}" was not approved.`
+      };
+    }
+
+    // 5. Points earned for mission
+    const missionPtsMatch = description?.match(/Félicitations ! Vous avez gagné (\d+) points pour votre participation à la mission "(.*?)"\./);
+    if (missionPtsMatch) {
+      return {
+        title: newTitle,
+        description: lang === 'fr'
+          ? `Félicitations ! Vous avez gagné ${missionPtsMatch[1]} points pour votre participation à la mission "${missionPtsMatch[2]}".`
+          : `Congratulations! You earned ${missionPtsMatch[1]} points for your participation in the mission "${missionPtsMatch[2]}".`
+      };
+    }
+
+    // 6. Support proof approved (grouped or single)
+    const proofMatch = description?.match(/Votre preuve de soutien de (\d+) a été approuvée(?:\s*par validation groupée)?\. Vous avez gagné (\d+) points\./);
+    if (proofMatch) {
+      const isGrouped = description.includes("par validation groupée");
+      return {
+        title: newTitle,
+        description: lang === 'fr'
+          ? `Votre preuve de soutien de ${proofMatch[1]} a été approuvée${isGrouped ? " par validation groupée" : ""}. Vous avez gagné ${proofMatch[2]} points.`
+          : `Your support proof of ${proofMatch[1]} was approved${isGrouped ? " by bulk validation" : ""}. You earned ${proofMatch[2]} points.`
+      };
+    }
+
+    // 7. Report points
+    const reportPtsMatch = description?.match(/Félicitations ! Vous avez gagné (\d+) points pour votre signalement "(.*?)"\./);
+    if (reportPtsMatch) {
+      return {
+        title: newTitle,
+        description: lang === 'fr'
+          ? `Félicitations ! Vous avez gagné ${reportPtsMatch[1]} points pour votre signalement "${reportPtsMatch[2]}".`
+          : `Congratulations! You earned ${reportPtsMatch[1]} points for your report "${reportPtsMatch[2]}".`
+      };
+    }
+
+    return { title: newTitle, description: description };
+  };
+
   return (
-    <LanguageContext.Provider value={{ lang, setLang: handleSetLang, t }}>
+    <LanguageContext.Provider value={{ lang, setLang: handleSetLang, t, formatNotification }}>
       {children}
     </LanguageContext.Provider>
   );

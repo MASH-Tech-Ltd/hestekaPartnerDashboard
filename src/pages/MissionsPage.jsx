@@ -9,7 +9,7 @@ import StatusBadge from "../components/common/StatusBadge";
 import ConfirmModal from "../components/common/ConfirmModal";
 import CRUDModal from "../components/common/CRUDModal";
 import { getOptimizedCloudinaryUrl } from "../utils/cloudinary";
-import { Target, Plus, Edit2, Trash2, Users, Calendar, Upload, Award, Eye, Check } from "lucide-react";
+import { Target, Plus, Edit2, Trash2, Users, Calendar, Upload, Award, Eye, Check, X } from "lucide-react";
 
 export default function MissionsPage() {
   const { t } = useLang();
@@ -234,6 +234,22 @@ export default function MissionsPage() {
     } catch (err) {
       console.error("Failed to approve participant", err);
       toast.error(err.response?.data?.message || t.toastApproveFailed || "Failed to approve participant.");
+    }
+  };
+
+  const handleRejectParticipant = async (participationId) => {
+    try {
+      const res = await api.patch(`/local-missions/reject-local-mission/${participationId}`);
+      if (res.data.status === "ok") {
+        toast.success(t.toastRejectSuccess || "Participant rejected!");
+        // Refresh list
+        setParticipants((prev) =>
+          prev.map((p) => (p._id === participationId ? { ...p, status: "rejected" } : p))
+        );
+      }
+    } catch (err) {
+      console.error("Failed to reject participant", err);
+      toast.error(err.response?.data?.message || t.toastRejectFailed || "Failed to reject participant.");
     }
   };
 
@@ -478,13 +494,27 @@ export default function MissionsPage() {
 
                       <div className="flex items-center gap-2">
                         {p.status === "pending" ? (
-                          <button
-                            onClick={() => handleApproveParticipant(p._id)}
-                            className="px-3 py-1.5 bg-orange-600 hover:bg-orange-700 text-white text-[10px] font-bold rounded-lg flex items-center gap-1 shadow transition-colors"
-                          >
-                            <Check className="w-3 h-3" />
-                            {t.approve || "Approve"}
-                          </button>
+                          <>
+                            <button
+                              onClick={() => handleRejectParticipant(p._id)}
+                              className="px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-600 text-[10px] font-bold rounded-lg flex items-center gap-1 shadow-sm transition-colors"
+                            >
+                              <X className="w-3 h-3" />
+                              {t.rejectBtn || "Reject"}
+                            </button>
+                            <button
+                              onClick={() => handleApproveParticipant(p._id)}
+                              className="px-3 py-1.5 bg-orange-600 hover:bg-orange-700 text-white text-[10px] font-bold rounded-lg flex items-center gap-1 shadow transition-colors"
+                            >
+                              <Check className="w-3 h-3" />
+                              {t.approveBtn || "Approve"}
+                            </button>
+                          </>
+                        ) : p.status === "rejected" ? (
+                          <span className="px-2 py-0.5 rounded-full bg-red-50 text-red-600 text-[10px] font-bold border border-red-200 uppercase tracking-wider flex items-center gap-0.5">
+                            <X className="w-3 h-3" />
+                            {t.rejected || "Rejected"}
+                          </span>
                         ) : (
                           <span className="px-2 py-0.5 rounded-full bg-green-50 text-green-600 text-[10px] font-bold border border-green-200 uppercase tracking-wider flex items-center gap-0.5">
                             <Check className="w-3 h-3" />
@@ -498,7 +528,7 @@ export default function MissionsPage() {
               ) : (
                 <div className="flex-1 flex flex-col items-center justify-center text-[#9a8a7a] gap-2 py-10">
                   <Users className="w-10 h-10 opacity-30" />
-                  <p className="text-xs font-medium">{t.noRegistrationsYet || "No registrations for this mission yet."}</p>
+                  <p className="text-xs font-medium">{t.noRegistrationsYet || "No participants for this mission yet."}</p>
                 </div>
               )}
             </div>

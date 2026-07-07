@@ -10,7 +10,7 @@ import { Bell, Menu } from "lucide-react";
 import { getOptimizedCloudinaryUrl, getPartnerName } from "../../utils/cloudinary";
 
 const Topbar = React.memo(({ onToggleSidebar }) => {
-  const { lang, setLang, t } = useLang();
+  const { lang, setLang, t, formatNotification } = useLang();
   const location = useLocation();
   const { fetchWithCache } = useApiCache();
 
@@ -134,9 +134,10 @@ const Topbar = React.memo(({ onToggleSidebar }) => {
     "/support-messages": { title: t.supportMessages || "Support Messages", sub: t.supportMessagesSub || "Contact our support team" },
     "/faq": { title: t.faq || "FAQ", sub: t.faqSub || "Frequently asked questions" },
     "/settings": { title: t.settings, sub: t.configureProfileSub || "Configure company logo, banner, and profile details" },
+    "/support-proofs": { title: t.supportProofs || "Support Proofs", sub: t.supportProofsSub || "Review and validate physical donations" },
   };
 
-  const page = PAGE_TITLES[location.pathname] || { title: t.overview || "Overview", sub: "HESTEKA Partner" };
+  const page = PAGE_TITLES[location.pathname] || { title: t.overview || "Overview", sub: t.hestekaPartner || "HESTEKA Partner" };
   const initials = getPartnerName(user)?.charAt(0)?.toUpperCase() || "P";
 
   return (
@@ -197,7 +198,7 @@ const Topbar = React.memo(({ onToggleSidebar }) => {
                       onClick={handleMarkAllAsRead}
                       className="text-[10px] font-bold text-[#8B6914] hover:underline cursor-pointer"
                     >
-                      {t.markAllRead || "Mark all read"}
+                      {t.markAllAsRead || "Mark all read"}
                     </button>
                   )}
                   <Link
@@ -212,7 +213,9 @@ const Topbar = React.memo(({ onToggleSidebar }) => {
 
               <div className="max-h-80 overflow-y-auto flex flex-col">
                 {notifications.filter(n => !n.isRead).length > 0 ? (
-                  notifications.filter(n => !n.isRead).map((notif) => (
+                  notifications.filter(n => !n.isRead).map((notif) => {
+                    const { title, description } = formatNotification(notif.title, notif.description);
+                    return (
                     <div
                       key={notif._id}
                       onClick={() => handleMarkAsRead(notif._id, notif.isRead)}
@@ -220,18 +223,18 @@ const Topbar = React.memo(({ onToggleSidebar }) => {
                     >
                       <div className="flex justify-between items-start mb-1">
                         <h4 className="text-xs font-bold text-[#3a2a1a]">
-                          {notif.title}
+                          {title}
                         </h4>
                         <span className="w-2 h-2 bg-[#8B6914] rounded-full shrink-0 mt-1"></span>
                       </div>
                       <p className="text-[10px] text-[#9a8a7a] line-clamp-2 leading-relaxed">
-                        {notif.description}
+                        {description}
                       </p>
                       <span className="text-[9px] text-[#c8b898] mt-2 block">
                         {new Date(notif.createdAt).toLocaleString()}
                       </span>
                     </div>
-                  ))
+                  )})
                 ) : (
                   <div className="p-6 text-center text-[#9a8a7a] text-xs">
                     {t.noNotifs || "No notifications"}

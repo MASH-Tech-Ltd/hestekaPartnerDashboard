@@ -28,11 +28,16 @@ const AnalyticsCard = React.memo(({ label, value, color, icon: Icon, sub, subIco
 ));
 
 const CustomTooltip = ({ active, payload, label }) => {
+  const { t } = useLang();
   if (active && payload && payload.length) {
     return (
       <div className="bg-[#3a2a1a] text-white p-3 rounded-xl border border-white/20 shadow-2xl backdrop-blur-md">
-        <p className="text-[10px] font-bold opacity-60 uppercase tracking-widest mb-1">{label}</p>
-        <p className="text-sm font-black">{payload[0].value} Participants</p>
+        <p className="text-[10px] font-bold opacity-60 uppercase tracking-widest mb-1">
+          {t[label?.toLowerCase() + "Short"] || label}
+        </p>
+        <p className="text-sm font-black">
+          {payload[0].value} {t.registrationsLabel || "Participants"}
+        </p>
       </div>
     );
   }
@@ -121,7 +126,7 @@ export default function AnalyticsPage() {
             </h3>
             <div className="flex items-center gap-2">
               <span className="flex items-center gap-1.5 text-[10px] font-bold text-[#9a8a7a]">
-                <div className="w-2 h-2 rounded-full bg-orange-600"></div> Registrations
+                <div className="w-2 h-2 rounded-full bg-orange-600"></div> {t.registrationsLabel || "Participants"}
               </span>
             </div>
           </div>
@@ -140,6 +145,7 @@ export default function AnalyticsPage() {
                   dataKey="name" 
                   axisLine={false} 
                   tickLine={false} 
+                  tickFormatter={(val) => t[val?.toLowerCase() + "Short"] || val?.toUpperCase()}
                   tick={{ fill: '#9a8a7a', fontSize: 10, fontWeight: 'bold' }}
                   dy={10}
                 />

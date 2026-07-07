@@ -19,6 +19,7 @@ import {
   FileImage,
   Upload,
   Eye,
+  X,
 } from "lucide-react";
 
 const mapContainerStyle = {
@@ -268,13 +269,30 @@ export default function CollectionPointsPage() {
     mapRef.current = null;
   }, []);
 
+  // Helper to extract coordinates safely
+  const getCoordinates = (p) => {
+    if (p.location?.coordinates && p.location.coordinates.length >= 2) {
+      return {
+        lat: Number(p.location.coordinates[1]),
+        lng: Number(p.location.coordinates[0])
+      };
+    }
+    if (p.latitude && p.longitude) {
+      return {
+        lat: Number(p.latitude),
+        lng: Number(p.longitude)
+      };
+    }
+    return null;
+  };
+
   // Center maps on first active point when points load
   useEffect(() => {
-    const validPoint = points.find((p) => p.latitude && p.longitude);
+    const validPoint = points.map(p => ({...p, coords: getCoordinates(p)})).find(p => p.coords);
     if (validPoint) {
       setMapCenter({
-        lat: Number(validPoint.latitude),
-        lng: Number(validPoint.longitude),
+        lat: validPoint.coords.lat,
+        lng: validPoint.coords.lng,
       });
       setZoom(10);
     }
@@ -282,7 +300,7 @@ export default function CollectionPointsPage() {
 
   useEffect(() => {
     if (!isLoaded) return;
-    const validPoints = points.filter((p) => p.latitude && p.longitude);
+    const validPoints = points.map(p => ({...p, coords: getCoordinates(p)})).filter(p => p.coords);
     validPoints.forEach((point) => {
       const imgUrl = point.photo?.secure_url || point.logo?.secure_url;
       const id = point._id;
@@ -336,11 +354,14 @@ export default function CollectionPointsPage() {
     {
       header: t.coordinates || "Coordinates",
       accessor: "coords",
-      cell: (row) => (
-        <span className="text-[11px] font-mono text-[#9a8a7a]">
-          {row.latitude?.toFixed(4)}, {row.longitude?.toFixed(4)}
-        </span>
-      ),
+      cell: (row) => {
+        const coords = getCoordinates(row);
+        return (
+          <span className="text-[11px] font-mono text-[#9a8a7a]">
+            {coords ? `${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)}` : "N/A"}
+          </span>
+        );
+      },
     },
     {
       header: t.statusLabel || "Status",
@@ -478,13 +499,14 @@ export default function CollectionPointsPage() {
               onUnmount={onUnmount}
             >
               {filteredPoints
-                .filter((p) => p.latitude && p.longitude)
+                .map((p) => ({ ...p, coords: getCoordinates(p) }))
+                .filter((p) => p.coords)
                 .map((point) => (
                   <MarkerF
                     key={point._id}
                     position={{
-                      lat: Number(point.latitude),
-                      lng: Number(point.longitude),
+                      lat: point.coords.lat,
+                      lng: point.coords.lng,
                     }}
                     onClick={() => handleRowClick(point)}
                     title={point.title}
@@ -534,89 +556,138 @@ export default function CollectionPointsPage() {
       {/* View Detail Modal */}
       {isViewOpen && selectedPoint && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[75vh]">
-            <div className="p-5 border-b border-[#f0e8d8] flex justify-between items-center bg-[#fcfaf7] shrink-0">
-              <h2 className="text-lg font-bold text-[#3a2a1a] flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-orange-600" />
-                {t.pointDetails || "Point Details"}
+          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[75vh] overflow-y-auto custom-scrollbar shadow-2xl animate-in fade-in zoom-in duration-200">
+            <div className="p-5 border-b border-[#f0e8d8] flex justify-between items-center sticky top-0 bg-white z-10">
+              <h2 className="text-xl font-bold text-[#3a2a1a] flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-[#8B6914]" />{" "}
+                {t.viewBtn || "View"}: {selectedPoint.title}
               </h2>
               <button
                 onClick={() => setIsViewOpen(false)}
-                className="text-[#9a8a7a] hover:text-[#3a2a1a] font-bold text-sm"
+                className="text-[#9a8a7a] hover:text-[#3a2a1a] transition-colors p-1"
               >
-                ✕
+                <X className="w-6 h-6" />
               </button>
             </div>
 
-            <div className="p-6 overflow-y-auto flex-1 flex flex-col gap-4">
+            <div className="p-6 flex flex-col gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-4">
+                  <h3 className="font-bold text-[#3a2a1a] border-b pb-2">
+                    {t.generalInfo || "General Information"}
+                  </h3>
+                  <div className="grid grid-cols-2 gap-y-2 text-sm">
+                    <span className="text-[#9a8a7a]">
+                      {t.titleLabel || "Title"}:
+                    </span>
+                    <span className="font-medium text-[#3a2a1a]">
+                      {selectedPoint.title}
+                    </span>
+                    <span className="text-[#9a8a7a]">{t.statusLabel || "Status"}:</span>
+                    <span className="font-bold uppercase text-[10px] bg-green-100 text-green-600 px-2 py-0.5 rounded-full w-fit">
+                      {selectedPoint.status || "ACTIVE"}
+                    </span>
+                    <span className="text-[#9a8a7a]">{t.address || "Address"}:</span>
+                    <span
+                      className="font-medium text-[#3a2a1a] truncate"
+                      title={selectedPoint.address}
+                    >
+                      {selectedPoint.address}
+                    </span>
+                    <span className="text-[#9a8a7a]">{t.dateLabel || "Date"}:</span>
+                    <span className="font-medium text-[#3a2a1a]">
+                      {selectedPoint.createdAt ? new Date(selectedPoint.createdAt).toLocaleDateString() : new Date().toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <h3 className="font-bold text-[#3a2a1a] border-b pb-2">
+                    {t.partner || "Partner"}
+                  </h3>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-full bg-[#8B6914] text-white flex items-center justify-center font-bold overflow-hidden border border-[#e8ddd0]">
+                      {(() => {
+                        try {
+                          const user = JSON.parse(localStorage.getItem("partnerUser") || "{}");
+                          const imgUrl = user?.profileImage?.secure_url || user?.logo?.secure_url;
+                          if (imgUrl) {
+                            return <img src={imgUrl} alt="Logo" className="w-full h-full object-cover" />;
+                          }
+                          return (user?.company?.[0] || user?.firstName?.[0] || "P").toUpperCase();
+                        } catch {
+                          return "P";
+                        }
+                      })()}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-sm text-[#3a2a1a]">
+                        {(() => {
+                          try {
+                            const user = JSON.parse(localStorage.getItem("partnerUser") || "{}");
+                            return user?.company || user?.firstName || "Partner";
+                          } catch {
+                            return "Partner";
+                          }
+                        })()}
+                      </span>
+                      <span className="text-xs text-[#9a8a7a]">
+                        {(() => {
+                          try {
+                            return JSON.parse(localStorage.getItem("partnerUser") || "{}").email || "";
+                          } catch {
+                            return "";
+                          }
+                        })()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2 bg-[#f5f0e8] p-4 rounded-xl">
+                <h3 className="font-bold text-[#3a2a1a] text-sm">
+                  {t.descriptionLabel || "Description"}
+                </h3>
+                <p className="text-sm text-[#5a4a3a] leading-relaxed whitespace-pre-wrap">
+                  {selectedPoint.description || t.noDescription || "No description configured."}
+                </p>
+              </div>
+
               {selectedPoint.photo?.secure_url && (
-                <div className="w-full h-44 rounded-xl overflow-hidden border border-[#e8ddd0]">
+                <div className="flex flex-col gap-3">
+                  <h3 className="font-bold text-[#3a2a1a] border-b pb-2">
+                    {t.photoLabel || "Photo"}
+                  </h3>
                   <img
-                    src={getOptimizedCloudinaryUrl(
-                      selectedPoint.photo.secure_url,
-                      500,
-                      350,
-                    )}
-                    alt=""
-                    className="w-full h-full object-cover"
+                    src={selectedPoint.photo.secure_url}
+                    alt="Point"
+                    className="w-full max-h-64 object-cover rounded-lg border border-[#e8ddd0] shadow-sm"
                   />
                 </div>
               )}
 
-              <div className="space-y-1">
-                <span className="text-[9px] font-bold text-[#9a8a7a] uppercase tracking-widest">
-                  {t.titleLabel || "Title"}
-                </span>
-                <p className="text-xs font-bold text-[#3a2a1a]">
-                  {selectedPoint.title}
-                </p>
-              </div>
-
-              <div className="space-y-1">
-                <span className="text-[9px] font-bold text-[#9a8a7a] uppercase tracking-widest">
-                  {t.streetAddress || "Street Address"}
-                </span>
-                <p className="text-xs font-medium text-[#3a2a1a]">
-                  {selectedPoint.address}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <span className="text-[9px] font-bold text-[#9a8a7a] uppercase tracking-widest">
-                    {t.latitudeLabel || "Latitude"}
-                  </span>
-                  <p className="text-xs font-mono font-medium text-[#3a2a1a]">
-                    {selectedPoint.latitude}
+              {(selectedPoint.latitude || selectedPoint.location?.coordinates) && (
+                <div className="flex flex-col gap-3">
+                  <h3 className="font-bold text-[#3a2a1a] border-b pb-2">
+                    {t.localisationLabel || "Localization"}
+                  </h3>
+                  <p className="text-sm text-[#5a4a3a] mb-2 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-[#8B6914]" />{" "}
+                    {selectedPoint.address}
                   </p>
+                  <div className="w-full h-64 bg-gray-200 rounded-xl overflow-hidden border border-[#e8ddd0]">
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      loading="lazy"
+                      allowFullScreen
+                      src={`https://maps.google.com/maps?q=${selectedPoint.latitude || selectedPoint.location?.coordinates?.[1]},${selectedPoint.longitude || selectedPoint.location?.coordinates?.[0]}&hl=fr;z=14&output=embed`}
+                    ></iframe>
+                  </div>
                 </div>
-                <div className="space-y-1">
-                  <span className="text-[9px] font-bold text-[#9a8a7a] uppercase tracking-widest">
-                    {t.longitudeLabel || "Longitude"}
-                  </span>
-                  <p className="text-xs font-mono font-medium text-[#3a2a1a]">
-                    {selectedPoint.longitude}
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <span className="text-[9px] font-bold text-[#9a8a7a] uppercase tracking-widest">
-                  {t.descriptionLabel || "Description"}
-                </span>
-                <p className="text-xs font-medium text-[#5a4a3a] bg-[#fcfaf7] p-3 rounded-xl border border-[#e8ddd0] leading-relaxed whitespace-pre-wrap">
-                  {selectedPoint.description || "No description configured."}
-                </p>
-              </div>
-            </div>
-
-            <div className="p-4 bg-[#fcfaf7] border-t border-[#f0e8d8] flex justify-end shrink-0">
-              <button
-                onClick={() => setIsViewOpen(false)}
-                className="px-6 py-2 bg-orange-600 text-white text-xs font-bold rounded-xl hover:bg-orange-700 transition-all shadow"
-              >
-                {t.closeDetails || "Close Details"}
-              </button>
+              )}
             </div>
           </div>
         </div>
