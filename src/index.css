@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Fix Chrome autofill background for orange inputs */
+input.bg-orange-600:-webkit-autofill,
+input.bg-orange-600:-webkit-autofill:hover, 
+input.bg-orange-600:-webkit-autofill:focus, 
+input.bg-orange-600:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #ea580c inset !important;
+    -webkit-text-fill-color: white !important;
+}
+
+/* Fix Chrome autofill background for light inputs */
+input.bg-\[\#fcfaf7\]:-webkit-autofill,
+input.bg-\[\#fcfaf7\]:-webkit-autofill:hover, 
+input.bg-\[\#fcfaf7\]:-webkit-autofill:focus, 
+input.bg-\[\#fcfaf7\]:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #fcfaf7 inset !important;
+    -webkit-text-fill-color: #3a2a1a !important;
+}
