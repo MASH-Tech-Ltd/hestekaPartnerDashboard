@@ -104,14 +104,15 @@ export default function DashboardPage() {
       {/* Welcome Banner */}
       <div className="relative rounded-3xl overflow-hidden h-[240px] md:h-[280px] border border-[#e8ddd0] shadow-md flex items-end p-4 md:p-6 transition-all hover:shadow-lg group">
         <div className="absolute inset-0 z-0 bg-[#3a2a1a]">
-          <img
-            src={
-              profile?.partnerImage?.secure_url ||
-              "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=1200"
-            }
-            alt="Banner"
-            className="w-full h-full object-cover opacity-95 group-hover:scale-105 duration-700 transition-transform"
-          />
+          {profile?.partnerImage?.secure_url ? (
+            <img
+              src={profile.partnerImage.secure_url}
+              alt="Banner"
+              className="w-full h-full object-cover opacity-95 group-hover:scale-105 duration-700 transition-transform"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-r from-[#3a2a1a] to-[#8B6914] opacity-90" />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
         </div>
 

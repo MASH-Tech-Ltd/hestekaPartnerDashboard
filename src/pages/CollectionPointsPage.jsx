@@ -352,16 +352,22 @@ export default function CollectionPointsPage() {
       ),
     },
     {
-      header: t.coordinates || "Coordinates",
-      accessor: "coords",
-      cell: (row) => {
-        const coords = getCoordinates(row);
-        return (
-          <span className="text-[11px] font-mono text-[#9a8a7a]">
-            {coords ? `${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)}` : "N/A"}
-          </span>
-        );
-      },
+      header: t.addressLabel || "Address",
+      accessor: "address",
+      cell: (row) => (
+        <span className="text-[11px] text-[#9a8a7a]">
+          {row.address || "N/A"}
+        </span>
+      ),
+    },
+    {
+      header: t.createdDate || "Created Date",
+      accessor: "createdAt",
+      cell: (row) => (
+        <span className="text-[11px] text-[#9a8a7a]">
+          {row.createdAt ? new Date(row.createdAt).toLocaleDateString() : "N/A"}
+        </span>
+      ),
     },
     {
       header: t.statusLabel || "Status",
@@ -393,16 +399,6 @@ export default function CollectionPointsPage() {
           >
             <Edit2 className="w-3.5 h-3.5" />
           </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleOpenConfirm(row);
-            }}
-            className="p-1.5 rounded-lg border border-[#e8ddd0] hover:bg-red-50 text-red-600 hover:border-red-200 transition-all"
-            title={t.deleteLabel || "Delete"}
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-          </button>
         </div>
       ),
     },
@@ -429,6 +425,7 @@ export default function CollectionPointsPage() {
           t.searchPlaceholderPoints || "Search by name or address..."
         }
         actionButton={
+          /* 
           <button
             onClick={handleOpenCreate}
             className="px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-full flex items-center gap-1.5 shadow transition-all cursor-pointer shrink-0"
@@ -436,6 +433,8 @@ export default function CollectionPointsPage() {
             <Plus className="w-4 h-4" />
             {t.addPoint || "Add Point"}
           </button>
+          */
+          null
         }
       />
 

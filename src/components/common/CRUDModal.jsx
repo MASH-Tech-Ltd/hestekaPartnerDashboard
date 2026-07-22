@@ -580,18 +580,24 @@ const CRUDModal = ({
         {/* Cinematic Image Preview — shows for any record with an image or file fields */}
         {showCinematic ? (
           <div
-            className={`w-full aspect-[21/9] sm:aspect-[21/7] md:aspect-[21/6] ${bannerImageUrl ? "bg-[#f5f0e8]" : "bg-gradient-to-r from-[#3a2a1a] to-[#8B6914]"} border-b border-[#e8ddd0] relative overflow-hidden group`}
+            className={`w-full aspect-[21/9] sm:aspect-[21/7] md:aspect-[21/6] bg-[#f5f0e8] border-b border-[#e8ddd0] relative overflow-hidden group flex items-center justify-center`}
           >
-            {bannerImageUrl && (
-              <img
-                src={bannerImageUrl}
-                alt="Preview"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                onLoad={(e) => e.target.classList.add("opacity-100")}
-              />
+            {bannerImageUrl ? (
+              <>
+                <img
+                  src={bannerImageUrl}
+                  alt="Preview"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  onLoad={(e) => e.target.classList.add("opacity-100")}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#3a2a1a]/90 via-[#3a2a1a]/30 to-transparent"></div>
+              </>
+            ) : (
+              <div className="text-[#8B6914]/30 flex flex-col items-center gap-2 relative z-0">
+                <ImageIcon className="w-12 h-12" />
+                <span className="text-xs font-bold uppercase tracking-wider">{t.noImage || "No Image"}</span>
+              </div>
             )}
-
-            <div className="absolute inset-0 bg-gradient-to-t from-[#3a2a1a]/90 via-[#3a2a1a]/30 to-transparent"></div>
 
             {bannerField && !isViewOnly && (
               <div className="absolute top-4 right-4 z-20">
@@ -613,6 +619,7 @@ const CRUDModal = ({
               </div>
             )}
 
+            {/* Generic Title Display overlay */}
             <div className="absolute bottom-4 left-4 sm:left-6 flex items-end gap-4">
               {(logoImageUrl || logoField) && (
                 <div className="relative z-20 shrink-0">
@@ -647,10 +654,10 @@ const CRUDModal = ({
                 </div>
               )}
               <div className="flex flex-col mb-1 sm:mb-2 relative z-10">
-                <span className="text-[9px] font-black text-white/90 uppercase tracking-[0.2em] mb-1">
+                <span className={`text-[9px] font-black ${bannerImageUrl ? "text-white/90" : "text-[#8B6914]"} uppercase tracking-[0.2em] mb-1`}>
                   {t.visualPreview || "Visual Preview"}
                 </span>
-                <span className="text-white font-black text-lg sm:text-2xl tracking-tight leading-none truncate max-w-[280px] drop-shadow-md">
+                <span className={`${bannerImageUrl ? "text-white drop-shadow-md" : "text-[#3a2a1a]"} font-black text-lg sm:text-2xl tracking-tight leading-none truncate max-w-[280px]`}>
                   {entityName !== "Details"
                     ? entityName
                     : t.newRecord || "New Record"}
