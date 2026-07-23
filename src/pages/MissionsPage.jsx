@@ -46,9 +46,12 @@ export default function MissionsPage() {
     },
     {
       name: "missionDate",
-      label: t.dateLabel || "Date",
+      label: t.missionDateLabel || "Date",
       type: "date",
       required: true,
+      allowIndefinite: true,
+      indefiniteLabel: t.indefiniteDuration || "No set date",
+      indefiniteKey: "isIndefiniteDate",
     },
     { name: "address", label: t.address || "Address", required: true },
     {
@@ -125,7 +128,11 @@ export default function MissionsPage() {
 
   const handleOpenEdit = (mission) => {
     setModalMode("edit");
-    setSelectedMission(mission);
+    setSelectedMission({
+      ...mission,
+      missionDate: mission.missionDate,
+      isIndefiniteDate: !mission.missionDate,
+    });
     setIsCrudOpen(true);
   };
 
@@ -165,10 +172,16 @@ export default function MissionsPage() {
       } else if (key === "longitude") {
         hasLoc = true;
         lng = formDataObject[key];
-      } else if (formDataObject[key] !== undefined) {
-        if (key === "missionDate" && formDataObject[key]) {
+      } else if (key === "isIndefiniteDate") {
+        // Do not append to FormData directly
+      } else if (key === "missionDate") {
+        if (formDataObject.isIndefiniteDate) {
+          formData.append("missionDate", "");
+        } else if (formDataObject[key]) {
           formData.append(key, new Date(formDataObject[key]).toISOString());
-        } else if (key === "points") {
+        }
+      } else if (formDataObject[key] !== undefined) {
+        if (key === "points") {
           formData.append(key, Number(formDataObject[key]));
         } else {
           formData.append(key, formDataObject[key]);
@@ -299,7 +312,7 @@ export default function MissionsPage() {
       accessor: "missionDate",
       cell: (row) => (
         <span className="text-xs text-[#5a4a3a] font-medium">
-          {row.missionDate || row.createdAt ? new Date(row.missionDate || row.createdAt).toLocaleDateString() : "—"}
+          {row.missionDate ? new Date(row.missionDate).toLocaleDateString() : (t.indefiniteDuration || "No set date")}
         </span>
       ),
     },
