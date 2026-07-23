@@ -35,6 +35,7 @@ export default function MissionsPage() {
   const [selectedMission, setSelectedMission] = useState(null);
   const [modalMode, setModalMode] = useState("create"); // create, edit
   const [modalLoading, setModalLoading] = useState(false);
+  const [locations, setLocations] = useState({ regions: [], departments: [] });
 
   const missionFields = [
     { name: "title", label: t.titleLabel || "Title", required: true },
@@ -54,6 +55,24 @@ export default function MissionsPage() {
       indefiniteKey: "isIndefiniteDate",
     },
     { name: "address", label: t.address || "Address", required: true },
+    { 
+      name: "region", 
+      label: t.regionLabel || "Region",
+      type: "select",
+      options: [
+        { value: "", label: t.selectRegion || "Select a region" },
+        ...locations.regions.map(r => ({ value: r, label: r }))
+      ]
+    },
+    { 
+      name: "department", 
+      label: t.departmentLabel || "Department",
+      type: "select",
+      options: [
+        { value: "", label: t.selectDepartment || "Select a department" },
+        ...locations.departments.map(d => ({ value: d, label: d }))
+      ]
+    },
     {
       name: "latitude",
       label: t.latitude || "Latitude",
@@ -74,6 +93,12 @@ export default function MissionsPage() {
     },
     { name: "duration", label: t.durationLabel || "Duration", required: true },
     { name: "image", label: t.missionPhoto || "Mission Photo", type: "file" },
+    ...(modalMode !== "edit" ? [{
+      name: "notifyAllFrance",
+      label: t.notifyAllFranceLabel || "Notify all users in France",
+      type: "checkbox",
+      fullWidth: true,
+    }] : []),
   ];
 
   const fetchMissions = useCallback(async (isInitial = false) => {
@@ -94,6 +119,18 @@ export default function MissionsPage() {
 
   useEffect(() => {
     fetchMissions(true);
+
+    const fetchLocations = async () => {
+      try {
+        const res = await api.get("/contacts/locations");
+        if (res.data.status === "ok") {
+          setLocations(res.data.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch locations", err);
+      }
+    };
+    fetchLocations();
     
     // Automatically trigger create modal if navigated from overview with create state
     if (locationState?.openCreate) {
@@ -314,6 +351,26 @@ export default function MissionsPage() {
         <span className="text-xs text-[#5a4a3a] font-medium">
           {row.missionDate ? new Date(row.missionDate).toLocaleDateString() : (t.indefiniteDuration || "No set date")}
         </span>
+      ),
+    },
+    {
+      header: t.requestedLabel || "REQUESTED",
+      accessor: "requested",
+      cell: (row) => (
+        row.pendingRequestsCount > 0 ? (
+          <span className="bg-red-100 text-red-600 text-[10px] font-bold px-2 py-0.5 rounded-full">
+            {row.pendingRequestsCount}
+          </span>
+        ) : (
+          <span className="font-bold text-[10px]">0</span>
+        )
+      ),
+    },
+    {
+      header: t.participants || "PARTICIPANTS",
+      accessor: "participants",
+      cell: (row) => (
+        <span className="font-bold text-[10px]">{row.participantsCount || 0}</span>
       ),
     },
     {
